@@ -82,15 +82,22 @@ class Tree
         node
     end
 
-
-
+    def find(num, node = @root)
+        return node if node == nil
+        if num < node.data
+            node.left = find(num, node.left)
+        elsif num > node.data
+            node.right = find(num, node.right)
+        else
+            puts node
+        end  
+    end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 bst = Tree.new(arr)
 bst.pretty_print
-p bst
-bst.delete(67)
-bst.pretty_print
-p bst
+bst.find(67)
+
+
 
