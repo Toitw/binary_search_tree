@@ -92,12 +92,25 @@ class Tree
             puts node
         end  
     end
+
+    def level_order(node = @root, queue = [])
+        return node if node == nil
+        queue.push(node)
+        while queue.empty? == false do
+            current_node = queue[0]
+            p current_node.data
+            queue.push(current_node.left) if current_node.left != nil
+            queue.push(current_node.right) if current_node.right != nil
+            queue.shift
+        end
+
+    end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 bst = Tree.new(arr)
 bst.pretty_print
-bst.find(67)
+bst.level_order
 
 
 
