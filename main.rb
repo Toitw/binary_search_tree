@@ -98,19 +98,40 @@ class Tree
         queue.push(node)
         while queue.empty? == false do
             current_node = queue[0]
-            p current_node.data
+            yield
             queue.push(current_node.left) if current_node.left != nil
             queue.push(current_node.right) if current_node.right != nil
             queue.shift
         end
-
     end
+
+    def preorder(node = @root)
+        return if node.nil?
+        p node.data
+        preorder(node.left)
+        preorder(node.right)
+    end
+
+    def inorder(node = @root)
+        return if node.nil?
+        preorder(node.left)
+        p node.data
+        preorder(node.right)
+    end
+
+    def postorder(node = @root)
+        return if node.nil?
+        preorder(node.left)
+        preorder(node.right)
+        p node.data
+    end
+
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 bst = Tree.new(arr)
 bst.pretty_print
-bst.level_order
+bst.postorder
 
 
 
