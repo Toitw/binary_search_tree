@@ -89,7 +89,7 @@ class Tree
         elsif num > node.data
             node.right = find(num, node.right)
         else
-            puts node
+            node
         end  
     end
 
@@ -126,12 +126,26 @@ class Tree
         p node.data
     end
 
+    def height(node)
+        return -1 if node.nil?
+        left_height = height(node.left)
+        right_height = height(node.right)
+        p [left_height, right_height].max + 1
+    end
+
+    def height_by_node_value(value)
+        node = find(value)
+        height(node)
+    end
+
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 bst = Tree.new(arr)
 bst.pretty_print
-bst.postorder
+node1 = bst.find(23)
+bst.height(node1)
+bst.pretty_print
 
 
 
