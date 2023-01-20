@@ -130,12 +130,26 @@ class Tree
         return -1 if node.nil?
         left_height = height(node.left)
         right_height = height(node.right)
-        p [left_height, right_height].max + 1
+        [left_height, right_height].max + 1
     end
 
+    #auxiliary function to use a value instead of the node
     def height_by_node_value(value)
         node = find(value)
         height(node)
+    end
+
+    def depth(value, node = @root)
+        return 0 if node.nil?
+        return 1 if node.data == value
+        left_depth = depth(value, node.left)
+        right_depth = depth(value, node.right)
+        [left_depth, right_depth].max + 1
+    end
+
+    #auxiliary function to use a value instead of the node
+    def depth2(node)
+        height(@root) - height_by_node_value(node)
     end
 
 end
@@ -143,9 +157,7 @@ end
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 bst = Tree.new(arr)
 bst.pretty_print
-node1 = bst.find(23)
-bst.height(node1)
-bst.pretty_print
+p bst.depth2(8)
 
 
 
