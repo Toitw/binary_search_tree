@@ -93,37 +93,40 @@ class Tree
         end  
     end
 
-    def level_order(node = @root, queue = [])
+    def level_order(node = @root, queue = [], output = [])
         return node if node == nil
         queue.push(node)
         while queue.empty? == false do
             current_node = queue[0]
-            yield
+            output.push(current_node.data)
             queue.push(current_node.left) if current_node.left != nil
             queue.push(current_node.right) if current_node.right != nil
             queue.shift
         end
+        output
     end
 
-    def preorder(node = @root)
+    def preorder(node = @root, output = [])
         return if node.nil?
-        p node.data
-        preorder(node.left)
-        preorder(node.right)
+        output.push(node.data) unless node.data.nil?
+        preorder(node.left, output)
+        preorder(node.right, output)
+        output
     end
 
-    def inorder(node = @root)
+    def inorder(node = @root, output = [])
         return if node.nil?
-        preorder(node.left)
-        p node.data
-        preorder(node.right)
+        preorder(node.left, output)
+        output.push(node.data)
+        preorder(node.right, output)
+        output
     end
 
-    def postorder(node = @root)
+    def postorder(node = @root, output = [])
         return if node.nil?
-        preorder(node.left)
-        preorder(node.right)
-        p node.data
+        preorder(node.left, output)
+        preorder(node.right, output)
+        output.push(node.data)
     end
 
     def height(node)
@@ -143,10 +146,10 @@ class Tree
         height(@root) - height_by_node_value(node)
     end
 
-    def balanced(node = @root, height = 0)
+    def balanced?(node = @root, height = 0)
         return true if node.nil?
-        left = balanced(node.left, height(node.left))
-        right = balanced(node.right, height(node.right))
+        left = balanced?(node.left, height(node.left))
+        right = balanced?(node.right, height(node.right))
         if (height(node.left) - height(node.right)).abs <= 1
             true
         else
@@ -154,16 +157,17 @@ class Tree
         end
     end
 
+    def rebalance(node = @root)
+        Tree.new(level_order)
+    end
+
 end
 
-arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+arr = (Array.new(15) { rand(1..100) })
 bst = Tree.new(arr)
-bst.pretty_print
-p bst.balanced
-bst.insert(8000)
-bst.insert(9000)
-bst.insert(9500)
-bst.pretty_print
-p bst.balanced
+p bst.postorder
+
+
+
 
 
