@@ -139,17 +139,19 @@ class Tree
         height(node)
     end
 
-    def depth(value, node = @root)
-        return 0 if node.nil?
-        return 1 if node.data == value
-        left_depth = depth(value, node.left)
-        right_depth = depth(value, node.right)
-        [left_depth, right_depth].max + 1
+    def depth(node)
+        height(@root) - height_by_node_value(node)
     end
 
-    #auxiliary function to use a value instead of the node
-    def depth2(node)
-        height(@root) - height_by_node_value(node)
+    def balanced(node = @root, height = 0)
+        return true if node.nil?
+        left = balanced(node.left, height(node.left))
+        right = balanced(node.right, height(node.right))
+        if (height(node.left) - height(node.right)).abs <= 1
+            true
+        else
+            return false
+        end
     end
 
 end
@@ -157,7 +159,11 @@ end
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 bst = Tree.new(arr)
 bst.pretty_print
-p bst.depth2(8)
-
+p bst.balanced
+bst.insert(8000)
+bst.insert(9000)
+bst.insert(9500)
+bst.pretty_print
+p bst.balanced
 
 
